@@ -2,7 +2,8 @@ package echoserver;
 
 import java.net.ServerSocket;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.InputStream;
+import java.io.*;
 import java.net.*;
 
 public class EchoServer {
@@ -14,6 +15,7 @@ public class EchoServer {
         try{
 
             ServerSocket sock = new ServerSocket(portNumber);
+
 
             while(true){
 
