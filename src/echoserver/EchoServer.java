@@ -14,18 +14,33 @@ public class EchoServer {
 
         try{
 
-            ServerSocket sock = new ServerSocket(portNumber);
+            ServerSocket sock = new ServerSocket(portNumber); 
+
+            int nextByte;
 
 
             while(true){
 
                 Socket client = sock.accept();
-                System.out.println("Got a request!");
+                // System.out.println("Got a request!");
 
 
-                PrintWriter writer = new PrintWriter(client.getOutputStream(),true);
+                InputStream input = client.getInputStream();
 
-                writer.println(new java.util.Date().toString());
+                OutputStream output = client.getOutputStream();
+
+
+                // PrintWriter writer = new PrintWriter(client.getOutputStream(),true);
+
+                // writer.println(new java.util.Date().toString());
+
+                while ((nextByte = input.read()) != -1) {
+                    output.write(nextByte);
+                    output.flush();
+                    // int byteread = input.read();
+                    // System.out.write(byteread);
+                    // System.out.flush();
+                  }
 
                 client.close();
             }
