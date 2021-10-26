@@ -20,26 +20,36 @@ public class EchoClient {
       // Connect to the server
       Socket socket = new Socket(server, portNumber);
 
+
+      //Gets input and output stream so we can read from the socket
       OutputStream output = socket.getOutputStream();
 
-      // Get the input stream so we can read from that socket
       InputStream input = socket.getInputStream();
-      //BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
-      // Print all the input we receive from the server
+
       int nextByte;
 
-      //String line;
-      //char c;
-
+      
+      //Check if there is something to be read from the user 
       while ((nextByte = System.in.read()) != -1) {
+        //Sends data to the server
         output.write(nextByte);
         output.flush();
         int byteread = input.read();
+        //reads it from the server and writes it out
         System.out.write(byteread);
         System.out.flush();
       }
 
+      //tells the socket no more information from the user is coming 
+      socket.shutdownOutput();
+
+      //checks if anything is still being sent from the server
+      while ((nextByte = input.read()) != -1) {
+        int byteread = input.read();
+        System.out.write(byteread);
+        System.out.flush();
+      }
 
       // Close the socket when we're done reading from it
       socket.close();
