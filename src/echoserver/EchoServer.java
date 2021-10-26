@@ -14,37 +14,36 @@ public class EchoServer {
 
         try{
 
+            //Start listening on the specified port
             ServerSocket sock = new ServerSocket(portNumber); 
 
             int nextByte;
 
-
+            //Run forever, which is common for server-style services
             while(true){
 
+                //Wait until someone connects
                 Socket client = sock.accept();
-                // System.out.println("Got a request!");
 
-
+                //Gets input and output stream so we can read from the socket
                 InputStream input = client.getInputStream();
 
                 OutputStream output = client.getOutputStream();
 
-
-                // PrintWriter writer = new PrintWriter(client.getOutputStream(),true);
-
-                // writer.println(new java.util.Date().toString());
-
+                //reads data from the client socket
                 while ((nextByte = input.read()) != -1) {
+                    //writes back to the client 
                     output.write(nextByte);
                     output.flush();
-                    // int byteread = input.read();
-                    // System.out.write(byteread);
-                    // System.out.flush();
                   }
+
+                  //closes everything that needs to be closed
+                  input.close();
+                  output.close();
 
                 client.close();
             }
-            
+        //very minimal error handling 
         } catch (IOException ioe) {
 
             System.out.println("We caught an unexpected exception");
